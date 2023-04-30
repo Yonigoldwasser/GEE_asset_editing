@@ -1,0 +1,20 @@
+import ee
+ee.Authenticate()
+ee.Initialize()
+src_folder = "projects/earthengine-legacy/assets/users/username/new_folder"
+# folder where to copy
+dest_folder = "projects/earthengine-legacy/assets/users/username/new_folder"
+
+# get all assets in the folder
+assets = ee.data.listAssets({'parent': src_folder})
+
+# loop through assets and copy them one by one to the new destination
+for asset in assets['assets']:
+    # construct destination path
+    new_asset = dest_folder + '/' + asset['id'].split('/')[-1]
+    # copy to destination
+    ee.data.copyAsset(asset['id'], new_asset, True)
+    # delete source asset
+    #ee.data.deleteAsset(asset['id'])
+
+print("finish")
